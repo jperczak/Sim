@@ -55,20 +55,20 @@ void Router::handleMessage(cMessage *msg)
 {
     if (msg==event)
     {
-        ExtMessage *message = (ExtMessage*)queue.pop();
-        send(message, "port$o");
+        ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
+        send(message, "port$o", 0 );
         message = nullptr;  //is that necessary
     }
     else
     {
         ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
-        queue.insert((cObject *)ttmsg);
+        queue.insert(ttmsg);
+        ttmsg = nullptr;
         //handle message in routing table but....
         //temporary - just sent id to another router
 
         // Acknowledgment received!
         EV << "Received: " << msg->getName() << "\n";
-        send(ttmsg, "port$o", 0 );
 
         scheduleAt(simTime()+intrand(5), event);
     }
