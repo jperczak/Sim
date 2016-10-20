@@ -22,54 +22,59 @@ Define_Module(Router);
 Router::Router()
 {
     ipAddress.set(0,0,0,1);
-    event = nullptr;
 }
 
 Router::~Router()
 {
-    cancelAndDelete(event);
+
 }
 
 void Router::initialize()
 {
-    IPAddress a(0,0,0,1);
-    IPAddress b(0,0,1,1);
-    IPAddress c(0,1,1,1);
+    //IPAddress a(0,0,0,1);
+   // IPAddress b(0,0,1,1);
+   // IPAddress c(0,1,1,1);
 
-    avlTree.AddNodeElement(a);
-    avlTree.AddNodeElement(b);
-    avlTree.AddNodeElement(c);
+   // avlTree.AddNodeElement(a);
+   // avlTree.AddNodeElement(b);
+   // avlTree.AddNodeElement(c);
 
-    node* o = avlTree.FindProperNode(b);
+   // node* o = avlTree.FindProperNode(b);
 
-    int g = avlTree.GetGate(o);
-    IPAddress u = avlTree.GetDstAddress(o);
+   // int g = avlTree.GetGate(o);
+   // IPAddress u = avlTree.GetDstAddress(o);
 
     // Generate and send initial message.
     EV << "I'm a Router and I'm alive\n";
-
-    event = new cMessage("event");
 }
 
 void Router::handleMessage(cMessage *msg)
 {
-    if (msg==event)
-    {
-        ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
-        send(message, "port$o", 0 );
-        message = nullptr;  //is that necessary
-    }
-    else
-    {
-        ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
-        queue.insert(ttmsg);
-        ttmsg = nullptr;
-        //handle message in routing table but....
-        //temporary - just sent id to another router
+//(eventQueue.front() != NULL) &&
+        if ( (strcmp(msg->getName(),"event") == 0))
+            {//==eventQueue.front()->getName()
+                ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
+                send(message, "port$o", 0 );
+                message = nullptr;  //is that necessary
 
-        // Acknowledgment received!
-        EV << "Received: " << msg->getName() << "\n";
+                //cMessage * event = check_and_cast<cMessage *>(eventQueue.pop());
+                //cancelAndDelete(event);
+                cancelAndDelete(msg);
+            }
+            else
+            {
+                ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
+                queue.insert(ttmsg);
+                ttmsg = nullptr;
+                //handle message in routing table but....
+                //temporary - just sent id to another router
 
-        scheduleAt(simTime()+intrand(5), event);
-    }
+                // Acknowledgment received!
+                EV << "Received: " << msg->getName() << "\n";
+
+                cMessage * event = new cMessage("event");
+                //eventQueue.insert(event->dup());
+                scheduleAt(simTime()+intrand(5)+1, event);
+                event = nullptr;
+            }
 }

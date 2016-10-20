@@ -31,6 +31,6 @@ private:
     IPAddress ipAddress;
     int routingTable; //narazie jako takie cos - > na tree NAZWA_KLASY?
     AVLTree avlTree;
-    cMessage *event; // pointer to the event object which we'll use for timing
+   // cQueue eventQueue;
     cQueue queue;
 };
