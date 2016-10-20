@@ -31,18 +31,7 @@ Router::~Router()
 
 void Router::initialize()
 {
-    //IPAddress a(0,0,0,1);
-   // IPAddress b(0,0,1,1);
-   // IPAddress c(0,1,1,1);
-
-   // avlTree.AddNodeElement(a);
-   // avlTree.AddNodeElement(b);
-   // avlTree.AddNodeElement(c);
-
-   // node* o = avlTree.FindProperNode(b);
-
-   // int g = avlTree.GetGate(o);
-   // IPAddress u = avlTree.GetDstAddress(o);
+   ipAddress = par("address"); WATCH(ipAddress);
 
     // Generate and send initial message.
     EV << "I'm a Router and I'm alive\n";

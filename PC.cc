@@ -31,6 +31,8 @@ PC::~PC()
 
 void PC::initialize()
 {
+	ipAddress = par("address"); WATCH(ipAddress);
+	
     event = new cMessage("event");
 
     // Generate and send initial message.

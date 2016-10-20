@@ -31,6 +31,6 @@ private:
     IPAddress ipAddress;
     int routingTable; //narazie jako takie cos - > na tree NAZWA_KLASY?
     AVLTree avlTree;
-   // cQueue eventQueue;
     cQueue queue;
+   // cQueue eventQueue;
 };
