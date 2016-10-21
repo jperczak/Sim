@@ -31,7 +31,7 @@ PC::~PC()
 
 void PC::initialize()
 {
-	ipAddress = par("address"); WATCH(ipAddress);
+	//ipAddress = par("address"); WATCH(ipAddress);
 	
     event = new cMessage("event");
 
@@ -62,7 +62,7 @@ void PC::handleMessage(cMessage *msg)
         EV << "Wait period is over, sending back message\n";
         message = generateNewPacket();
         send(message, "port$o");
-        message = nullptr;  //is that necessary
+        message = nullptr;
 
         scheduleAt(simTime()+poisson(10), event);
     }

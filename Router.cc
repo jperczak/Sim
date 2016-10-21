@@ -31,7 +31,8 @@ Router::~Router()
 
 void Router::initialize()
 {
-   ipAddress = par("address"); WATCH(ipAddress);
+    //double x = par("address");
+    //ipAddress = par("address"); WATCH(ipAddress);
 
     // Generate and send initial message.
     EV << "I'm a Router and I'm alive\n";
@@ -39,31 +40,25 @@ void Router::initialize()
 
 void Router::handleMessage(cMessage *msg)
 {
-//(eventQueue.front() != NULL) &&
-        if ( (strcmp(msg->getName(),"event") == 0))
-            {//==eventQueue.front()->getName()
-                ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
-                send(message, "port$o", 0 );
-                message = nullptr;  //is that necessary
 
-                //cMessage * event = check_and_cast<cMessage *>(eventQueue.pop());
-                //cancelAndDelete(event);
-                cancelAndDelete(msg);
-            }
-            else
-            {
-                ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
-                queue.insert(ttmsg);
-                ttmsg = nullptr;
-                //handle message in routing table but....
-                //temporary - just sent id to another router
+    if ( (strcmp(msg->getName(),"event") == 0))
+    {
+        ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
+        send(message, "port$o", 0 );
+        message = nullptr;
 
-                // Acknowledgment received!
-                EV << "Received: " << msg->getName() << "\n";
+        cancelAndDelete(msg);
+    }
+    else
+    {
+        ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
+        queue.insert(ttmsg);
+        ttmsg = nullptr;
 
-                cMessage * event = new cMessage("event");
-                //eventQueue.insert(event->dup());
-                scheduleAt(simTime()+intrand(5)+1, event);
-                event = nullptr;
-            }
+        EV << "Received: " << msg->getName() << "\n";
+
+        cMessage * event = new cMessage("event");
+        scheduleAt(simTime()+intrand(5)+1, event);
+        event = nullptr;
+     }
 }
