@@ -116,29 +116,29 @@ depend:
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/AVLTree.o: AVLTree.cc \
-  ./IPAddress.h \
-  ./AVLTree.h
+  ./AVLTree.h \
+  ./IPAddress.h
 $O/ExtMessage_m.o: ExtMessage_m.cc \
   ./ExtMessage_m.h \
   ./IPAddress.h
 $O/IPAddress.o: IPAddress.cc \
   ./IPAddress.h \
-  ./AVLTree.h \
-  ./ExtMessage_m.h \
   ./Headers.h \
+  ./AVLTree.h \
   ./Router.h \
+  ./ExtMessage_m.h \
   ./PC.h
 $O/PC.o: PC.cc \
-  ./IPAddress.h \
-  ./AVLTree.h \
   ./Router.h \
-  ./PC.h \
   ./ExtMessage_m.h \
-  ./Headers.h
-$O/Router.o: Router.cc \
-  ./AVLTree.h \
-  ./IPAddress.h \
   ./PC.h \
-  ./Router.h \
+  ./IPAddress.h \
   ./Headers.h \
-  ./ExtMessage_m.h
+  ./AVLTree.h
+$O/Router.o: Router.cc \
+  ./Headers.h \
+  ./IPAddress.h \
+  ./AVLTree.h \
+  ./ExtMessage_m.h \
+  ./Router.h \
+  ./PC.h
