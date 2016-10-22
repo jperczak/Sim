@@ -19,20 +19,46 @@
 
 Define_Module(Router);
 
+std::string Router::routTab0[][3]= {
+        {PC0,PC0,"0"},
+        {PC1,R10,"1"},
+        {PC2,R10,"1"},
+};
+std::string Router::routTab1[][3]= {
+        {PC0,R01,"0"},
+        {PC1,R21,"1"},
+        {PC2,R31,"2"},
+};
+std::string Router::routTab2[][3]= {
+        {PC0,R12,"1"},
+        {PC1,PC1,"0"},
+        {PC2,R12,"1"},
+};
+std::string Router::routTab3[][3]= {
+        {PC0,R13,"1"},
+        {PC1,R13,"1"},
+        {PC2,PC2,"0"},
+};
+
 Router::Router()
 {
-    ipAddress.set(0,0,0,1);
 }
 
 Router::~Router()
 {
-
 }
 
 void Router::initialize()
 {
-    //double x = par("address");
-    //ipAddress = par("address"); WATCH(ipAddress);
+    std::string a = par("address0");
+    const char * a1 = a.c_str();
+    ipAddress0.set(a1); WATCH(ipAddress0);
+    std::string b = par("address1");
+    const char * a2 = a.c_str();
+    ipAddress1.set(a2); WATCH(ipAddress1);
+    std::string c = par("address2");
+    const char * a3 = a.c_str();
+    ipAddress2.set(a3); WATCH(ipAddress2);
 
     // Generate and send initial message.
     EV << "I'm a Router and I'm alive\n";

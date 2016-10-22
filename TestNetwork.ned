@@ -18,6 +18,9 @@ simple Router
 {
     parameters:
         @display("i=abstract/router_vs;is=n");
+        string address0 = default("");
+        string address1 = default("");
+        string address2 = default("");
     gates:
         inout port[];
 }
@@ -26,6 +29,7 @@ simple PC
 {
     parameters:
         @display("i=device/laptop;is=n");
+        string address = default("");
     gates:
         inout port;
 }
@@ -35,29 +39,47 @@ network TestNetwork
  submodules:
         Router0: Router {
             @display("p=266,205");
+            address0 = "10.0.0.6";
+        	address1 = "10.1.0.1";
+        	address2 = "0.0.0.0";
             gates:
-                port[2];
+                port[2];		
         }
         Router1: Router {
             @display("p=147,205");
+            address0 = "10.1.0.2";
+        	address1 = "10.2.0.1";
+        	address2 = "10.3.0.1";
             gates:
-                port[3];
+                port[3];		
         }
         Router2: Router {
             @display("p=340,150");
+            address0 = "10.0.2.254";
+        	address1 = "10.2.0.2";
+        	address2 = "0.0.0.0";
             gates:
-                port[2];
+                port[2];       		
         }
         Router3: Router {
             @display("p=303,303");
+            address0 = "10.0.2.62";
+        	address1 = "10.3.0.2";
+        	address2 = "0.0.0.0";
             gates:
                 port[2];
         }
         PC0: PC {
+            parameters:
+        		address = "10.0.0.1";
         }
         PC1: PC {
+            parameters:
+        		address = "10.0.2.1";
         }
         PC2: PC {
+            parameters:
+        		address = "10.0.3.1";
         }
         
  connections:

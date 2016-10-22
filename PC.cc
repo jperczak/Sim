@@ -31,7 +31,9 @@ PC::~PC()
 
 void PC::initialize()
 {
-	//ipAddress = par("address"); WATCH(ipAddress);
+    std::string a = par("address");
+    const char * c = a.c_str();
+	ipAddress.set(c); WATCH(ipAddress);
 	
     event = new cMessage("event");
 

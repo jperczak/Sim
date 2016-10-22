@@ -20,6 +20,21 @@
 #include <string.h>
 #include <omnetpp.h>
 
+#define PC0 "10.0.0.1"
+#define PC1 "10.0.1.1"
+#define PC2 "10.0.2.1"
+
+#define PC0R "10.0.0.6"
+#define PC1R "10.0.1.254"
+#define PC2R "10.0.2.62"
+
+#define R01 "10.1.0.1"
+#define R10 "10.1.0.2"
+#define R12 "10.2.0.1"
+#define R21 "10.2.0.2"
+#define R13 "10.3.0.1"
+#define R31 "10.3.0.2"
+
 #include <AVLTree.h>
 #include <ExtMessage_m.h>
 #include <PC.h>

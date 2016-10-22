@@ -23,12 +23,19 @@ public:
     Router();
     virtual ~Router();
 
+    static std::string routTab0[3][3];
+    static std::string routTab1[3][3];
+    static std::string routTab2[3][3];
+    static std::string routTab3[3][3];
+
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 
 private:
-    IPAddress ipAddress;
+    IPAddress ipAddress0;
+    IPAddress ipAddress1;
+    IPAddress ipAddress2;
     AVLTree avlTree;
     cQueue queue;
 };
