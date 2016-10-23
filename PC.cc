@@ -17,6 +17,12 @@
 
 Define_Module(PC);
 
+std::string PC::listAdr[]= {
+        {PC0},
+        {PC1},
+        {PC2},
+};
+
 PC::PC()
 {
     ipAddress.set(0,0,0,1);
@@ -45,17 +51,33 @@ void PC::initialize()
 
 ExtMessage *PC::generateNewPacket()
 {
-    // Generate a message with a different name every time.
     char msgname[20];
-    sprintf(msgname, "ipSrc-%d", ipAddress.getInt());
+    std::string dst = generateDstAdr();
+    IPAddress ipDst(dst.c_str());
+    sprintf(msgname, "ipDst: %d.%d.%d.%d", ipDst.getDByte(0), ipDst.getDByte(1), ipDst.getDByte(2), ipDst.getDByte(3));
     ExtMessage *msg = new ExtMessage(msgname);
 
     msg->setSrcAddress(ipAddress);
-    msg->setDstAddress(ipAddress);
+    msg->setDstAddress(ipDst);
+    msg->setMask(28);
 
     return msg;
 }
 
+std::string PC::generateDstAdr()
+{
+    int i = intrand(3);
+    std::string strDst = listAdr[i];
+    IPAddress ipDst(strDst.c_str());
+    if( ipDst == ipAddress )
+    {
+        return generateDstAdr();
+    }
+    else
+    {
+        return strDst;
+    }
+}
 
 void PC::handleMessage(cMessage *msg)
 {
@@ -74,5 +96,6 @@ void PC::handleMessage(cMessage *msg)
 
         EV << "Received: " << ttmsg->getName() << "\n";
         delete ttmsg;
+        ttmsg=nullptr;
     }
 }

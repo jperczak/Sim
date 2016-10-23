@@ -60,6 +60,66 @@ void Router::initialize()
     const char * a3 = a.c_str();
     ipAddress2.set(a3); WATCH(ipAddress2);
 
+    std::string name = getName();
+    const char * routerName = name.c_str();
+    if(strcmp(routerName,"Router0")==0)
+    {
+        for(int i=0; i<3;i++)
+        {
+            std::string empty = "0.0.0.0";
+            node tmp( routTab0[i][0],
+                    empty,
+                    routTab0[i][1],
+                    routTab0[i][2],
+                    28);
+
+            avlTree.AddNode(tmp);
+        }
+    }
+    else if(strcmp(routerName,"Router1")==0)
+        {
+            for(int i=0; i<3;i++)
+            {
+                std::string empty = "0.0.0.0";
+                node tmp( routTab1[i][0],
+                        empty,
+                        routTab1[i][1],
+                        routTab1[i][2],
+                        28);
+
+                avlTree.AddNode(tmp);
+            }
+        }
+    else if(strcmp(routerName,"Router2")==0)
+        {
+            for(int i=0; i<3;i++)
+            {
+                std::string empty = "0.0.0.0";
+                node tmp( routTab2[i][0],
+                        empty,
+                        routTab2[i][1],
+                        routTab2[i][2],
+                        28);
+
+                avlTree.AddNode(tmp);
+            }
+        }
+    else if(strcmp(routerName,"Router3")==0)
+        {
+            for(int i=0; i<3;i++)
+            {
+                std::string empty = "0.0.0.0";
+                node tmp( routTab3[i][0],
+                        empty,
+                        routTab3[i][1],
+                        routTab3[i][2],
+                        28);
+
+                avlTree.AddNode(tmp);
+            }
+        }
+
+
     // Generate and send initial message.
     EV << "I'm a Router and I'm alive\n";
 }

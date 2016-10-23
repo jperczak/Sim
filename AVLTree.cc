@@ -66,6 +66,16 @@ node* AVLTree::insert(node* p, IPAddress k) // insert k key in a tree with p roo
     return balance(p);
 }
 
+node* AVLTree::insertNode(node* p, node* k)
+{
+    if( !p ) return new node(k);
+    if( k->key<p->key )
+        p->left = insertNode(p->left,k);
+    else
+        p->right = insertNode(p->right,k);
+    return balance(p);
+}
+
 node* AVLTree::findmin(node* p) // find a node with minimal key in a p tree
 {
     return p->left?findmin(p->left):p;

@@ -21,15 +21,17 @@ public:
     PC();
     virtual ~PC();
 
+    static std::string listAdr[3];
+
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
 
 private:
     ExtMessage* generateNewPacket();
+    std::string generateDstAdr();
 
     IPAddress ipAddress;
-    int seq;  // message sequence number - do usuniecia po implementacji ip
     ExtMessage* message;
     cMessage *event; // pointer to the event object which we'll use for timing
 };
