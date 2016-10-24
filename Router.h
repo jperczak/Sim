@@ -23,10 +23,10 @@ public:
     Router();
     virtual ~Router();
 
-    static std::string routTab0[3][3];
-    static std::string routTab1[3][3];
-    static std::string routTab2[3][3];
-    static std::string routTab3[3][3];
+    static std::string routTab0[3][4];
+    static std::string routTab1[3][4];
+    static std::string routTab2[3][4];
+    static std::string routTab3[3][4];
 
 protected:
     virtual void initialize();
