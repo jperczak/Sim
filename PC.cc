@@ -43,9 +43,6 @@ void PC::initialize()
 	
     event = new cMessage("event");
 
-    // Generate and send initial message.
-    EV << "I'm a PC and I'm alive\n";
-
     scheduleAt(simTime()+poisson(10), event);
 }
 
@@ -83,8 +80,10 @@ void PC::handleMessage(cMessage *msg)
 {
     if (msg==event)
     {
-        EV << "Wait period is over, sending back message\n";
         message = generateNewPacket();
+
+        EV << "Sending: " << message->getName() << "\n";
+
         send(message, "port$o");
         message = nullptr;
 
@@ -95,7 +94,8 @@ void PC::handleMessage(cMessage *msg)
         ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
 
         EV << "Received: " << ttmsg->getName() << "\n";
-        delete ttmsg;
+
+        cancelAndDelete(ttmsg);
         ttmsg=nullptr;
     }
 }

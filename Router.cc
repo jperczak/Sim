@@ -126,7 +126,12 @@ void Router::handleMessage(cMessage *msg)
     if ( (strcmp(msg->getName(),"event") == 0))
     {
         ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
-        send(message, "port$o", 0 );
+        IPAddress dst = message->getDstAddress();
+
+        node* n = avlTree.FindProperNode(dst);
+        int p = atoi((n->gate).c_str());
+
+        send(message, "port$o", p );
         message = nullptr;
 
         cancelAndDelete(msg);
@@ -136,8 +141,6 @@ void Router::handleMessage(cMessage *msg)
         ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
         queue.insert(ttmsg);
         ttmsg = nullptr;
-
-        EV << "Received: " << msg->getName() << "\n";
 
         cMessage * event = new cMessage("event");
         scheduleAt(simTime()+intrand(5)+1, event);
