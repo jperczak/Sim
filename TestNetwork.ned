@@ -75,11 +75,11 @@ network TestNetwork
         }
         PC1: PC {
             parameters:
-        		address = "10.0.2.1";
+        		address = "10.0.1.1";
         }
         PC2: PC {
             parameters:
-        		address = "10.0.3.1";
+        		address = "10.0.2.1";
         }
         
  connections:
