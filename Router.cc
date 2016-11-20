@@ -42,14 +42,19 @@ std::string Router::routTab3[][4]= {
 
 Router::Router()
 {
+    ttmsg = nullptr;
 }
 
 Router::~Router()
 {
+    cancelAndDelete(selfmsg);
+    cancelAndDelete(ttmsg);
 }
 
 void Router::initialize()
 {
+    selfmsg = new cMessage("event");
+
     std::string a = par("address0");
     const char * a1 = a.c_str();
     ipAddress0.set(a1); WATCH(ipAddress0);
@@ -122,32 +127,37 @@ void Router::initialize()
 
 void Router::handleMessage(cMessage *msg)
 {
-
-    if ( (strcmp(msg->getName(),"event") == 0))
+    if(msg->isSelfMessage())
     {
-        ExtMessage *message = check_and_cast<ExtMessage *>(queue.pop());
-        IPAddress dst = message->getDstAddress();
+        if(ttmsg != nullptr)
+        {
+            IPAddress dst = ttmsg->getDstAddress();
 
-        node* n = avlTree.FindProperNode(dst);
-        int p = atoi((n->gate).c_str());
+            node* n = avlTree.FindProperNode(dst);
+            int p = atoi((n->gate).c_str());
 
-        send(message, "port$o", p );
-        message = nullptr;
-
-        cancelAndDelete(msg);
+            send(ttmsg, "port$o", p);
+        }
+        cancelEvent(selfmsg);
+        if(!queue.isEmpty())
+        {
+            ttmsg = check_and_cast<ExtMessage *>(queue.pop());
+            scheduleAt(simTime()+intrand(5)+1, selfmsg);
+        }
     }
     else
     {
-        ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
-        queue.insert(ttmsg);
-        ttmsg = nullptr;
-        //wysy³anie selfmsg powinno osbywac sie tylko jesli nie ma nic w kolejce
-        //jesli jest cos w kolejce to dorzucamy i czekamy
-        //przy obsludze selfmsg wysy³amy kolejny selfmsg dla kolejnego w kolejce
-
-        cMessage * event = new cMessage("event"); //bez nazwy
-        scheduleAt(simTime()+intrand(5)+1, event); //przerobiæ na selfmsg + isSelfMessa
-        event = nullptr;
-        //interfejs funkcji porównujacej adres (dlugosc maski) wzbogacic o mozliwosc porownywania adresow np. od x do y bitu adresu.
+        ExtMessage *arrmsg = check_and_cast<ExtMessage *>(msg);
+        if(queue.isEmpty() && !selfmsg->isScheduled())
+        {
+            ttmsg = arrmsg;
+            scheduleAt(simTime()+intrand(5)+1, selfmsg);
+        }
+        else
+        {
+            queue.insert(arrmsg);
+        }
+        arrmsg = nullptr;
      }
 }
+//TODO //interfejs funkcji porównujacej adres (dlugosc maski) wzbogacic o mozliwosc porownywania adresow np. od x do y bitu adresu.
