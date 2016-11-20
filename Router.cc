@@ -141,9 +141,13 @@ void Router::handleMessage(cMessage *msg)
         ExtMessage *ttmsg = check_and_cast<ExtMessage *>(msg);
         queue.insert(ttmsg);
         ttmsg = nullptr;
+        //wysy³anie selfmsg powinno osbywac sie tylko jesli nie ma nic w kolejce
+        //jesli jest cos w kolejce to dorzucamy i czekamy
+        //przy obsludze selfmsg wysy³amy kolejny selfmsg dla kolejnego w kolejce
 
-        cMessage * event = new cMessage("event");
-        scheduleAt(simTime()+intrand(5)+1, event);
+        cMessage * event = new cMessage("event"); //bez nazwy
+        scheduleAt(simTime()+intrand(5)+1, event); //przerobiæ na selfmsg + isSelfMessa
         event = nullptr;
+        //interfejs funkcji porównujacej adres (dlugosc maski) wzbogacic o mozliwosc porownywania adresow np. od x do y bitu adresu.
      }
 }
